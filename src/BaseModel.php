@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace swooleDb\DB;
+namespace gyDb\DB;
 
 use Exception;
 use InvalidArgumentException;

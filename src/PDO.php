@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace swooleDb\DB;
+namespace gyDb\DB;
 
 use RuntimeException;
 use Swoole\Database\PDOConfig;
