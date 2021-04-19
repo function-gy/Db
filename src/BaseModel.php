@@ -85,6 +85,11 @@ class BaseModel
         $this->release($this->pdo);
     }
 
+    /**
+     * @param $actions
+     * @return false|mixed
+     * @throws Exception
+     */
     public function action($actions)
     {
         if (is_callable($actions)) {
@@ -166,19 +171,17 @@ class BaseModel
         }
 
         $lastId = $this->pdo->lastInsertId();
-
-        if ($lastId != '0' && $lastId != '') {
-            $this->release($this->pdo);
-
-            return $lastId;
+        if (count($map) == count($map, 1)) {
+            if ($lastId != '0' && $lastId != '') {
+                $this->release($this->pdo);
+                return $lastId;
+            }
         }
-
         $this->release($this->pdo);
-
         return $statement;
     }
 
-    public static function raw($string, $map = [])
+    public static function raw($string, $map = []): Raw
     {
         $raw = new Raw();
 

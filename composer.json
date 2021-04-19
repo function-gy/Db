@@ -16,7 +16,9 @@
     ],
     "require": {
         "php": ">=7.1",
-        "ext-swoole": ">=4.4"
+        "ext-swoole": ">=4.4",
+        "ext-redis": "*",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.9"

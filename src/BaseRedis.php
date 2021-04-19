@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace gyDb\DB;
 
+use RedisException;
+
 class BaseRedis
 {
     protected $pool;
@@ -19,13 +21,19 @@ class BaseRedis
         }
     }
 
+    /**
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     * @throws RedisException
+     */
     public function __call($name, $arguments)
     {
         $this->connection = $this->pool->getConnection();
 
         try {
             $data = $this->connection->{$name}(...$arguments);
-        } catch (\RedisException $e) {
+        } catch (RedisException $e) {
             $this->pool->close(null);
             throw $e;
         }
@@ -35,6 +43,12 @@ class BaseRedis
         return $data;
     }
 
+    /**
+     * @param $keys
+     * @param $timeout
+     * @return array
+     * @throws RedisException
+     */
     public function brPop($keys, $timeout)
     {
         $this->connection = $this->pool->getConnection();
@@ -47,11 +61,10 @@ class BaseRedis
         $this->connection->setOption(\Redis::OPT_READ_TIMEOUT, (string) $timeout);
 
         $data = [];
-
+        $start = time();
         try {
-            $start = time();
             $data = $this->connection->brPop($keys, $timeout);
-        } catch (\RedisException $e) {
+        } catch (RedisException $e) {
             $end = time();
             if ($end - $start < $timeout) {
                 $this->pool->close(null);
@@ -66,6 +79,12 @@ class BaseRedis
         return $data;
     }
 
+    /**
+     * @param $keys
+     * @param $timeout
+     * @return array
+     * @throws RedisException
+     */
     public function blPop($keys, $timeout)
     {
         $this->connection = $this->pool->getConnection();
@@ -78,11 +97,10 @@ class BaseRedis
         $this->connection->setOption(\Redis::OPT_READ_TIMEOUT, (string) $timeout);
 
         $data = [];
-
+        $start = time();
         try {
-            $start = time();
             $data = $this->connection->blPop($keys, $timeout);
-        } catch (\RedisException $e) {
+        } catch (RedisException $e) {
             $end = time();
             if ($end - $start < $timeout) {
                 $this->pool->close(null);
@@ -97,6 +115,12 @@ class BaseRedis
         return $data;
     }
 
+    /**
+     * @param $channels
+     * @param $callback
+     * @return mixed|null
+     * @throws RedisException
+     */
     public function subscribe($channels, $callback)
     {
         $this->connection = $this->pool->getConnection();
@@ -105,7 +129,7 @@ class BaseRedis
 
         try {
             $data = $this->connection->subscribe($channels, $callback);
-        } catch (\RedisException $e) {
+        } catch (RedisException $e) {
             $this->pool->close(null);
             throw $e;
         }
@@ -117,16 +141,22 @@ class BaseRedis
         return $data;
     }
 
+    /**
+     * @param $srcKey
+     * @param $dstKey
+     * @param $timeout
+     * @return bool|mixed|string
+     * @throws RedisException
+     */
     public function brpoplpush($srcKey, $dstKey, $timeout)
     {
         $this->connection = $this->pool->getConnection();
 
         $this->connection->setOption(\Redis::OPT_READ_TIMEOUT, (string) $timeout);
-
+        $start = time();
         try {
-            $start = time();
             $data = $this->connection->brpoplpush($srcKey, $dstKey, $timeout);
-        } catch (\RedisException $e) {
+        } catch (RedisException $e) {
             $end = time();
             if ($end - $start < $timeout) {
                 throw $e;
