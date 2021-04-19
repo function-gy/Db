@@ -1,11 +1,10 @@
 {
-    "name": "swoole/db",
-    "description": "A db component for Swoole",
+    "name": "gy/db",
+    "description": "A db component",
     "type": "library",
     "license": "Apache-2.0",
     "keywords": [
         "php",
-        "swoole",
         "coroutine",
         "db"
     ],
