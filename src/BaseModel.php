@@ -50,9 +50,9 @@ class BaseModel
     public function __construct($config = null)
     {
         if (! empty($config)) {
-            $this->pool = \Simps\DB\PDO::getInstance($config);
+            $this->pool = \gyDb\DB\PDO::getInstance($config);
         } else {
-            $this->pool = \Simps\DB\PDO::getInstance();
+            $this->pool = \gyDb\DB\PDO::getInstance();
         }
     }
 
