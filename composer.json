@@ -1,0 +1,39 @@
+{
+    "name": "swoole/db",
+    "description": "A db component for Swoole",
+    "type": "library",
+    "license": "Apache-2.0",
+    "keywords": [
+        "php",
+        "swoole",
+        "coroutine",
+        "db"
+    ],
+    "authors": [
+        {
+            "name": "gaoyang",
+            "email": "1256005331@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "ext-swoole": ">=4.4"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.9"
+    },
+    "suggest": {
+        "swoole/library": "Required to use database, and the swoole version is less than 4.4.17"
+    },
+    "autoload": {
+        "psr-4": {
+            "swooleDb\\DB\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "cs-fix": "php-cs-fixer fix $1"
+    }
+}
