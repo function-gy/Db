@@ -15,9 +15,9 @@ class BaseRedis
     public function __construct($config = null)
     {
         if (! empty($config)) {
-            $this->pool = Redis::getInstance($config);
+            $this->pool = \gyDb\DB\Redis::getInstance($config);
         } else {
-            $this->pool = Redis::getInstance();
+            $this->pool = \gyDb\DB\Redis::getInstance();
         }
     }
 
@@ -58,7 +58,7 @@ class BaseRedis
             $timeout = 99999999999;
         }
 
-        $this->connection->setOption(\Redis::OPT_READ_TIMEOUT, (string) $timeout);
+        $this->connection->setOption(3, (string) $timeout);
 
         $data = [];
         $start = time();
@@ -72,7 +72,7 @@ class BaseRedis
             }
         }
 
-        $this->connection->setOption(\Redis::OPT_READ_TIMEOUT, (string) $this->pool->getConfig()['time_out']);
+        $this->connection->setOption(3, (string) $this->pool->getConfig()['time_out']);
 
         $this->pool->close($this->connection);
 
@@ -94,7 +94,7 @@ class BaseRedis
             $timeout = 99999999999;
         }
 
-        $this->connection->setOption(\Redis::OPT_READ_TIMEOUT, (string) $timeout);
+        $this->connection->setOption(3, (string) $timeout);
 
         $data = [];
         $start = time();
@@ -108,7 +108,7 @@ class BaseRedis
             }
         }
 
-        $this->connection->setOption(\Redis::OPT_READ_TIMEOUT, (string) $this->pool->getConfig()['time_out']);
+        $this->connection->setOption(3, (string) $this->pool->getConfig()['time_out']);
 
         $this->pool->close($this->connection);
 
@@ -125,7 +125,7 @@ class BaseRedis
     {
         $this->connection = $this->pool->getConnection();
 
-        $this->connection->setOption(\Redis::OPT_READ_TIMEOUT, '-1');
+        $this->connection->setOption(3, '-1');
 
         try {
             $data = $this->connection->subscribe($channels, $callback);
@@ -134,7 +134,7 @@ class BaseRedis
             throw $e;
         }
 
-        $this->connection->setOption(\Redis::OPT_READ_TIMEOUT, (string) $this->pool->getConfig()['time_out']);
+        $this->connection->setOption(3, (string) $this->pool->getConfig()['time_out']);
 
         $this->pool->close($this->connection);
 
@@ -152,7 +152,7 @@ class BaseRedis
     {
         $this->connection = $this->pool->getConnection();
 
-        $this->connection->setOption(\Redis::OPT_READ_TIMEOUT, (string) $timeout);
+        $this->connection->setOption(3, (string) $timeout);
         $start = time();
         try {
             $data = $this->connection->brpoplpush($srcKey, $dstKey, $timeout);
@@ -164,7 +164,7 @@ class BaseRedis
             $data = false;
         }
 
-        $this->connection->setOption(\Redis::OPT_READ_TIMEOUT, (string) $this->pool->getConfig()['time_out']);
+        $this->connection->setOption(3, (string) $this->pool->getConfig()['time_out']);
 
         $this->pool->close($this->connection);
 
