@@ -1,2 +1,2 @@
 # swooleDb （branches orm）
-swoole easy mysql orm and redis pool
+swoole easy mysql orm
