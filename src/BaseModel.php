@@ -171,11 +171,12 @@ class BaseModel
         }
 
         $lastId = $this->pdo->lastInsertId();
-        if (count($map) == count($map, 1)) {
-            if ($lastId != '0' && $lastId != '') {
-                $this->release($this->pdo);
-                return $lastId;
+        if ($lastId != '0' && $lastId != '') {
+            $this->release($this->pdo);
+            if (false !== strpos($query, "), (")) {
+                return $statement;
             }
+            return $lastId;
         }
         $this->release($this->pdo);
         return $statement;
