@@ -358,7 +358,8 @@ class BaseModel
                 ', ',
                 $stack
             ),
-            $map
+            $map,
+            $isStatement
         );
     }
 
